@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoonslee <yoonslee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvu <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/08/15 15:33:51 by yoonslee         ###   ########.fr       */
+/*   Updated: 2023/08/15 17:52:03 by yoonslee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../headers/parsing.h"
 #include "../../headers/lexer.h"
@@ -18,8 +17,8 @@
 
 static void	unlink_heredoc(char *filename)
 {
-	if (!ft_strncmp_all(filename, HEREDOC))
-		unlink(HEREDOC);
+	if (!ft_strncmp(filename, "HEREDOC", 7))
+		unlink(filename);
 	return ;
 }
 
@@ -40,7 +39,7 @@ void	free_cmd_struct(t_command *command, int cmd_count)
 			free_char_array(command[i].full_cmd);
 		if (command[i].infile_name)
 		{
-			unlink_heredoc(command->infile_name);
+			unlink_heredoc(command[i].infile_name);
 			free(command[i].infile_name);
 		}
 		if (command[i].outfile_name)

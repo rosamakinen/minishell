@@ -6,7 +6,7 @@
 /*   By: yoonslee <yoonslee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 11:25:47 by yoonslee          #+#    #+#             */
-/*   Updated: 2023/08/08 08:45:04 by yoonslee         ###   ########.fr       */
+/*   Updated: 2023/08/16 14:30:19 by yoonslee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ char	*find_env(t_data *ms, char *var, int var_size);
 
 /*conctenate.c*/
 char	**concatenate(char **str, t_data *ms);
+int		extend_expand_quote_check2(t_data *ms, char **str);
 
 /*utils.c*/
 void	quotes_init(t_data *ms);
@@ -66,8 +67,9 @@ char	*expand_var_init(t_data *ms, char *str, int start);
 
 /*parser_special.c*/
 char	*special_expand(t_data *ms, char *str);
-void	free_case(t_data *ms);
 int		count_size(char *str, char *var, char *new);
 int		space_newline(char *str);
+int		break_in_expand_quote(char *str, t_data *ms);
+int		find_index(char *str, char c);
 
 #endif

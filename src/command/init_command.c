@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   init_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoonslee <yoonslee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvu <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/08/15 10:34:31 by yoonslee         ###   ########.fr       */
+/*   Updated: 2023/08/15 17:59:18 by yoonslee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../headers/minishell.h"
 #include "../../headers/hashmap.h"
@@ -91,7 +90,6 @@ t_command	*init_cmds(t_data *ms, char **input)
 		cmd[track].redir_fd_index_out = -2;
 		track++;
 	}
-	track = 0;
 	put_cmds_to_struct(cmd, input, ms);
 	full_cmd(cmd, ms->struct_count, track);
 	return (cmd);

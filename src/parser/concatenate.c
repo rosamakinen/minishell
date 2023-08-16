@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   concatenate.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmakinen <rmakinen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoonslee <yoonslee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:26:44 by yoonslee          #+#    #+#             */
-/*   Updated: 2023/08/14 16:21:42 by rmakinen         ###   ########.fr       */
+/*   Updated: 2023/08/16 14:39:39 by yoonslee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,21 @@ char	**concatenate(char **str, t_data *ms)
 		}
 	}
 	return (str);
+}
+
+//This function help for the line too long in expand_env.c:
+int	extend_expand_quote_check2(t_data *ms, char **str)
+{
+	str[ms->i] = ft_strdup(expand_var(ms, str[ms->i], ms->j));
+	if (!str[ms->i])
+		return (1);
+	if (ms->out)
+	{
+		free(ms->out);
+		ms->out = NULL;
+	}
+	if (ms->end - 1 >= (int)ft_strlen(str[ms->i]))
+		return (1);
+	ms->j = ms->end - 1;
+	return (0);
 }

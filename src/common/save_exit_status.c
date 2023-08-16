@@ -6,7 +6,7 @@
 /*   By: yoonslee <yoonslee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 09:50:22 by yoonslee          #+#    #+#             */
-/*   Updated: 2023/08/15 13:54:42 by yoonslee         ###   ########.fr       */
+/*   Updated: 2023/08/16 10:22:30 by yoonslee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	cmd_is_not_executable(t_command *command)
 	{
 		if (access(command->command, X_OK) == -1)
 		{
-			ft_puterror(126, ": permission denied\n", command);
+			ft_puterror(126, ": Permission denied\n", command);
 			exit(126);
 		}
 	}
@@ -30,7 +30,10 @@ void	cmd_is_not_executable(t_command *command)
 
 void	set_exit_code(int number)
 {
-	g_info.exit_code = number;
+	if (g_info.sig_status == 1)
+		g_info.exit_code = 1;
+	else
+		g_info.exit_code = number;
 }
 
 char	*get_exit_code(void)

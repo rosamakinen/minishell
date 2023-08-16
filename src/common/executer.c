@@ -6,7 +6,7 @@
 /*   By: yoonslee <yoonslee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 17:39:58 by meskelin          #+#    #+#             */
-/*   Updated: 2023/08/14 10:56:44 by yoonslee         ###   ########.fr       */
+/*   Updated: 2023/08/16 14:41:41 by yoonslee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,12 @@ static int	execute_builtin(t_command **command, t_env ***env, int fork)
 
 void	execute_command(t_command *command, t_env **env, int fork)
 {
+	if (!command || !command->command)
+		exit(1);
 	if (execute_builtin(&command, &env, fork))
 	{
 		if (!fork)
 			return ;
-	}
-	else if (ft_strncmp_all(command->command, "./minishell") == 0)
-	{
-		add_shlvl(env);
-		return ;
 	}
 	else
 		execute_ft_execve(command, env);

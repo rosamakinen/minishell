@@ -6,7 +6,7 @@
 /*   By: rmakinen <rmakinen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 17:53:38 by meskelin          #+#    #+#             */
-/*   Updated: 2023/08/14 16:15:33 by rmakinen         ###   ########.fr       */
+/*   Updated: 2023/08/16 10:40:09 by rmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*find_env(t_data *ms, char *var, int var_size)
 	if (!ft_strncmp_all(var, "$?"))
 		return (get_exit_code());
 	var_size--;
-	search = ft_calloc(var_size, sizeof(char));
+	search = ft_calloc(var_size + 1, sizeof(char));
 	if (!search)
 		ft_putstr_fd("Memory allocation failure!\n", 2, 1);
 	while (i++ < var_size)
@@ -105,6 +105,8 @@ void	realloc_var(t_data *ms, char *str, char *var, int size)
 	free(var);
 }
 
+// the function extend expand quote check2 is in the 
+// concatenate.c:
 static char	**expand_quote_check2(t_data *ms, char **str)
 {
 	while (str[++(ms->i)])
@@ -124,11 +126,8 @@ static char	**expand_quote_check2(t_data *ms, char **str)
 													&& !ms->s_quotes)
 			{
 				str[ms->i] = ft_strdup(expand_var(ms, str[ms->i], ms->j));
-				if (!str[ms->i])
+				if (break_in_expand_quote(str[ms->i], ms) == -1)
 					break ;
-				free_case(ms);
-				if (ms->end - 1 >= (int)ft_strlen(str[ms->i]))
-					break;
 				ms->j = ms->end - 1;
 			}
 		}
