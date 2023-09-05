@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoonslee <yoonslee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/06 11:08:29 by rmakinen          #+#    #+#             */
-/*   Updated: 2023/08/21 17:39:58 by yoonslee         ###   ########.fr       */
+/*   Created: 2023/08/21 17:36:33 by yoonslee          #+#    #+#             */
+/*   Updated: 2023/08/21 17:36:34 by yoonslee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include "libft.h"
 
-int	ft_pwd(t_env *env)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	char	*pwd;
+	const unsigned char	*pt1;
+	const unsigned char	*pt2;
 
-	(void)env;
-	pwd = getcwd(NULL, 0);
-	ft_putstr_fd(pwd, 1, 0);
-	ft_putchar_fd('\n', 1);
+	pt1 = s1;
+	pt2 = s2;
+	if (pt1 && ft_strlen((const char *)pt1) == 0)
+		return (1);
+	while (n--)
+	{
+		if (*pt1++ != *pt2++)
+			return (*(--pt1) - *(--pt2));
+	}
 	return (0);
 }

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meskelin <meskelin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoonslee <yoonslee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/03 16:06:45 by meskelin          #+#    #+#             */
-/*   Updated: 2023/08/15 17:34:59 by meskelin         ###   ########.fr       */
+/*   Created: 2023/07/03 16:06:45 by yoonslee          #+#    #+#             */
+/*   Updated: 2023/08/21 17:53:29 by yoonslee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
-#include "../../libft/libft.h"
 
 static char	*find_key(char *env_line, int del_index)
 {
@@ -38,6 +37,8 @@ static t_env	*init_env(void)
 	t_env	*env;
 
 	env = ft_calloc(1, sizeof(*env));
+	if (!env)
+		malloc_error();
 	return (env);
 }
 

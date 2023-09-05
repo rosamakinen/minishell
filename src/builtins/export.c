@@ -5,14 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rmakinen <rmakinen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/08/16 10:40:21 by rmakinen         ###   ########.fr       */
+/*   Created: 2023/08/21 17:39:32 by yoonslee          #+#    #+#             */
+/*   Updated: 2023/08/22 09:37:35 by rmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../headers/minishell.h"
-#include "../../libft/libft.h"
 
 static char	*find_key_in_str(char *cmd)
 {
@@ -36,7 +34,7 @@ static char	*find_key_in_str(char *cmd)
 		return (cmd);
 	key = ft_calloc(i + 1, sizeof(char));
 	if (!key)
-		return (NULL);
+		malloc_error();
 	while (--i > -1)
 		key[i] = cmd[i];
 	return (key);
@@ -56,7 +54,7 @@ static char	*find_value_in_str(char *cmd)
 	len = ft_strlen(cmd);
 	value = ft_calloc((len - i), sizeof(char));
 	if (!value)
-		return (NULL);
+		malloc_error();
 	i += 1;
 	while (i < len)
 	{
@@ -98,7 +96,7 @@ static	void	export_loop(char **input, t_node *temp)
 	{
 		temp_char = find_key_in_str(input[i]);
 		if (!temp_char)
-			exp_unset_err_msg(input[i], 1);
+			exp_unset_exit_msg(input[i], 1);
 		else if (ft_strncmp_all(temp_char, input[i]))
 		{
 			new_key = ft_strdup(temp_char);

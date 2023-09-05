@@ -1,24 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   free_char_array.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoonslee <yoonslee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/06 11:08:29 by rmakinen          #+#    #+#             */
-/*   Updated: 2023/08/21 17:39:58 by yoonslee         ###   ########.fr       */
+/*   Created: 2023/08/21 17:35:25 by yoonslee          #+#    #+#             */
+/*   Updated: 2023/08/21 17:35:28 by yoonslee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include "libft.h"
 
-int	ft_pwd(t_env *env)
+void	free_char_array(char **str)
 {
-	char	*pwd;
+	int		i;
 
-	(void)env;
-	pwd = getcwd(NULL, 0);
-	ft_putstr_fd(pwd, 1, 0);
-	ft_putchar_fd('\n', 1);
-	return (0);
+	i = 0;
+	if (!str)
+		return ;
+	while (str[i])
+	{
+		if (str[i])
+		{
+			free(str[i]);
+			str[i] = NULL;
+		}
+		i++;
+	}
+	if (str)
+		free(str);
 }

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   add_hashmap.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meskelin <meskelin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmakinen <rmakinen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/19 21:16:11 by meskelin          #+#    #+#             */
-/*   Updated: 2023/08/08 11:54:21 by meskelin         ###   ########.fr       */
+/*   Created: 2023/08/21 17:42:58 by yoonslee          #+#    #+#             */
+/*   Updated: 2023/08/22 09:44:17 by rmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/hashmap.h"
-#include "../../libft/libft.h"
 
 t_node	*new_node(char *key, char *value)
 {
@@ -19,7 +18,7 @@ t_node	*new_node(char *key, char *value)
 
 	new = (t_node *)ft_calloc(1, sizeof(*new));
 	if (!new)
-		return (NULL);
+		malloc_error();
 	new->key = key;
 	new->value = value;
 	new->next = NULL;
@@ -49,6 +48,8 @@ t_node	**set_value(t_node **head, char *key, char *value)
 	if (!head || !*head)
 	{
 		head = (t_node **)ft_calloc(1, sizeof(*head));
+		if (!head)
+			malloc_error();
 		*head = new_node(key, value);
 	}
 	else

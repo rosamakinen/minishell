@@ -5,15 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rmakinen <rmakinen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/13 17:53:38 by meskelin          #+#    #+#             */
-/*   Updated: 2023/08/16 10:40:09 by rmakinen         ###   ########.fr       */
+/*   Created: 2023/06/13 17:53:38 by yoonslee          #+#    #+#             */
+/*   Updated: 2023/08/22 09:42:51 by rmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/libft.h"
-#include "../../headers/hashmap.h"
 #include "../../headers/minishell.h"
-#include "../../headers/parsing.h"
 
 /*check if the word comes after '$' is expandable part
 using env variables.*/
@@ -35,7 +32,7 @@ char	*expand_var(t_data *ms, char *str, int start)
 		free(str);
 		return (ms->out);
 	}
-	while (ft_isalnum(str[ms->end]))
+	while (ft_isalnum(str[ms->end]) && ft_strncmp_all(var, "$?"))
 		ms->end++;
 	if (!var)
 		var = ft_substr(str, ms->start, ms->end - ms->start);
@@ -60,7 +57,7 @@ char	*find_env(t_data *ms, char *var, int var_size)
 	var_size--;
 	search = ft_calloc(var_size + 1, sizeof(char));
 	if (!search)
-		ft_putstr_fd("Memory allocation failure!\n", 2, 1);
+		malloc_error();
 	while (i++ < var_size)
 		search[i] = var[1 + i];
 	i = 0;
@@ -70,7 +67,7 @@ char	*find_env(t_data *ms, char *var, int var_size)
 		return (NULL);
 	search = ft_strdup(node->value);
 	if (!search)
-		ft_putstr_fd("Strdup memory allocation failure!\n", 2, 1);
+		malloc_error();
 	return (search);
 }
 
@@ -83,13 +80,13 @@ void	realloc_var(t_data *ms, char *str, char *var, int size)
 
 	new = find_env(ms, var, ft_strlen(var));
 	size = count_size(str, var, new);
-	if (size == 0)
+	if (size == 0 && !new)
 		ms->out = NULL;
 	else
 	{
 		ms->out = ft_calloc(size + 1, sizeof(char));
 		if (!ms->out)
-			return ;
+			malloc_error();
 		ms->out = ft_memcpy(ms->out, str, ms->start);
 		leftover = ms->start;
 		if (new)
@@ -105,31 +102,31 @@ void	realloc_var(t_data *ms, char *str, char *var, int size)
 	free(var);
 }
 
-// the function extend expand quote check2 is in the 
+// the function extend expand quote check2 is in the
 // concatenate.c:
-static char	**expand_quote_check2(t_data *ms, char **str)
+static char	**expand_quote_check2(t_data *ms, char **str, int count)
 {
-	while (str[++(ms->i)])
+	while (++ms->i < count)
 	{
 		ms->j = -1;
 		while (str[ms->i][++(ms->j)])
 		{
-			if (str[ms->i][ms->j] == 34 && !ms->s_quotes && !ms->d_quotes)
-				ms->d_quotes = 1;
-			else if (str[ms->i][ms->j] == 34 && ms->d_quotes)
-				ms->d_quotes = 0;
-			else if (str[ms->i][ms->j] == 39 && !ms->s_quotes && !ms->d_quotes)
-				ms->s_quotes = 1;
-			else if (str[ms->i][ms->j] == 39 && ms->s_quotes)
-				ms->s_quotes = 0;
+			if (check_quote_cases(&ms, str[ms->i][ms->j]))
+				continue ;
 			else if (str[ms->i][ms->j] == '$' && str[ms->i][ms->j + 1] \
-													&& !ms->s_quotes)
+				&& ft_strncmp_all(str[ms->i], "\"$\"") && !ms->s_quotes)
 			{
 				str[ms->i] = ft_strdup(expand_var(ms, str[ms->i], ms->j));
 				if (break_in_expand_quote(str[ms->i], ms) == -1)
 					break ;
 				ms->j = ms->end - 1;
 			}
+		}
+		if (str[ms->i] == NULL)
+		{
+			count--;
+			str = realloc_stack(str, count);
+			ms->i--;
 		}
 	}
 	return (str);
@@ -142,14 +139,15 @@ it will become 0.
 Expanding to env only happens if there is $ and something after, and
 if there is no single quote in front of it. it does not count if double quote
 exists or not.*/
-
 char	**expand_quote_check(t_data *ms, char **str)
 {
 	char	**res;
+	int		len;
 
 	ms_init(ms);
+	len = ft_arrlen(str);
 	ms->i = -1;
-	res = expand_quote_check2(ms, str);
+	res = expand_quote_check2(ms, str, len);
 	if (res == NULL)
 		return (NULL);
 	return (res);

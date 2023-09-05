@@ -5,14 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoonslee <yoonslee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/04 10:44:29 by                   #+#    #+#             */
-/*   Updated: 2023/08/14 09:51:31 by yoonslee         ###   ########.fr       */
+/*   Created: 2023/08/04 10:44:29 by yoonslee          #+#    #+#             */
+/*   Updated: 2023/08/21 17:42:35 by yoonslee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/parsing.h"
 #include "../../headers/minishell.h"
 
+/// @brief handles ctrl + c
+/// @param icotl acts like printing '\n' for using enter
 static void	handle_sig(int signo)
 {
 	if (signo == SIGINT)
@@ -24,6 +25,7 @@ static void	handle_sig(int signo)
 	}
 }
 
+/// @brief leaving the minishell with ctrl + d
 void	ctrl_d_cmd(char *line, t_data *ms)
 {
 	if (line == NULL)
@@ -40,6 +42,10 @@ void	restore_terminal(t_data *ms)
 	tcsetattr(STDIN_FILENO, TCSANOW, &(ms->old_tio));
 }
 
+/// @param SIGNINT ctrl + c
+/// @param SIGQUIT ctrl + '\'
+/// @param ctrl + D will send by default NULL(EOF)
+/// @param signal() ignores SIGQUIT signal (usually by pressing ctrl+)
 void	set_signal_action(t_data *ms)
 {
 	tcgetattr(STDIN_FILENO, &(ms->old_tio));

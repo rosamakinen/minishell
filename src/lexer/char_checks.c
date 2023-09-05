@@ -5,13 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoonslee <yoonslee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/06 10:53:56 by jhusso            #+#    #+#             */
-/*   Updated: 2023/07/17 13:13:03 by yoonslee         ###   ########.fr       */
+/*   Created: 2023/08/21 17:43:23 by yoonslee          #+#    #+#             */
+/*   Updated: 2023/08/21 17:43:25 by yoonslee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/lexer.h"
-#include "../../libft/libft.h"
 
 bool	is_delim(char c)
 {

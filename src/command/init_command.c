@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvu <marvin@42.fr>                         +#+  +:+       +#+        */
+/*   By: yoonslee <yoonslee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/08/15 17:59:18 by yoonslee         ###   ########.fr       */
+/*   Created: 2023/08/21 17:40:58 by yoonslee          #+#    #+#             */
+/*   Updated: 2023/08/21 17:40:59 by yoonslee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
-#include "../../headers/hashmap.h"
-#include "../../libft/libft.h"
 
 static int	count_struct(char **input)
 {
@@ -55,7 +53,7 @@ static void	init_fds_count_redirs(int *struct_count, char **input)
 	{
 		g_info.pipe_fds = ft_calloc(g_info.pipe_count, sizeof(g_info.pipe_fds));
 		if (!g_info.pipe_fds)
-			ft_putstr_fd("Memory allocation failure!\n", 2, 1);
+			malloc_error();
 	}
 	g_info.redir_count = count_redirs(input);
 	if (g_info.redir_count > 0)
@@ -63,7 +61,7 @@ static void	init_fds_count_redirs(int *struct_count, char **input)
 		g_info.redir_fds = ft_calloc(g_info.redir_count, \
 		sizeof(g_info.redir_fds));
 		if (!g_info.redir_fds)
-			ft_putstr_fd("Memory allocation failure!\n", 2, 1);
+			malloc_error();
 	}
 }
 
@@ -74,16 +72,10 @@ t_command	*init_cmds(t_data *ms, char **input)
 
 	track = 0;
 	ms->struct_count = count_struct(input);
-	if (!ft_strncmp_all(input[0], ""))
-	{
-		ft_putstr_fd("command not found\n", 2, 1);
-		g_info.exit_code = 127;
-		return (NULL);
-	}
 	init_fds_count_redirs(&ms->struct_count, input);
 	cmd = ft_calloc(ms->struct_count + 1, sizeof(t_command));
 	if (!cmd)
-		ft_putstr_fd("Memory allocation failure!\n", 2, 1);
+		malloc_error();
 	while (track < ms->struct_count + 1)
 	{
 		cmd[track].redir_fd_index_in = -2;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meskelin <meskelin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoonslee <yoonslee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/01 11:52:51 by emeinert          #+#    #+#             */
-/*   Updated: 2023/08/15 17:55:56 by meskelin         ###   ########.fr       */
+/*   Created: 2023/08/21 17:39:26 by yoonslee          #+#    #+#             */
+/*   Updated: 2023/08/21 17:39:27 by yoonslee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,18 @@ static int	ft_is_number(char **input)
 	int		i;
 	char	*temp;
 
-	i = 0;
+	i = -1;
 	if (ft_strlen(input[1]) == 1 && !ft_isdigit(input[1][0]))
 		return (0);
 	if (input[1][0] == '-' || input[1][0] == '+')
 			i++;
-	while (input[1][i] != '\0')
+	while (input[1][++i] != '\0')
 	{
 		if (!ft_isdigit(input[1][i]))
 			return (0);
-		i++;
 	}
+	if (i < 19)
+		return (1);
 	temp = ft_lltoa(ft_atoll(input[1]));
 	if (ft_strncmp_all(input[1], temp) \
 	|| (i > 20 && input[1][0] == '-' && input[1][0] == '+') \
@@ -46,28 +47,30 @@ static void	ft_exit_free(t_command *cmd, t_env *env)
 	free_in_minishell(cmd, g_info.pipe_count + 1);
 }
 
-static	void	num_arg_check(char **input, int fork, \
+static void	num_arg_check(char **input, int fork, \
 						t_command *cmd, t_env *env)
 {
+	long long	exit_value;
+
 	if (ft_is_number(input))
 	{
-		g_info.exit_code = ft_atoll(input[1]);
-		if (g_info.exit_code < 0)
+		exit_value = ft_atoll(input[1]);
+		if (exit_value < 0)
 		{
-			g_info.exit_code = g_info.exit_code * (-1);
-			g_info.exit_code = 256 - g_info.exit_code;
+			exit_value = exit_value * (-1);
+			g_info.exit_code = 256 - (exit_value % 256);
 		}
-		if (g_info.exit_code > 255)
-			g_info.exit_code = g_info.exit_code % 256;
+		else if (exit_value > 255)
+			g_info.exit_code = exit_value % 256;
+		else
+			g_info.exit_code = exit_value;
 	}
 	else
 	{
-		g_info.exit_code = 255;
+		set_exit_code(255);
 		if (!fork)
 			ft_putstr_fd("exit\n", 1, 0);
-		ft_putstr_fd("exit: ", 2, 1);
-		ft_putstr_fd(input[1], 2, 0);
-		ft_putstr_fd(": numeric argument required\n", 2, 0);
+		exp_unset_exit_msg(input[1], 2);
 		ft_exit_free(cmd, env);
 		exit(g_info.exit_code);
 	}
@@ -87,24 +90,23 @@ static int	amount_check(char **input, int fork)
 		if (!fork)
 			ft_putstr_fd("exit\n", 1, 0);
 		ft_putstr_fd("exit: too many arguments\n", 2, 1);
-		g_info.exit_code = 1;
+		set_exit_code(1);
 		return (1);
 	}
 	return (0);
 }
 
-void	ft_exit(t_command *command, t_env *env, int fork)
+void	ft_exit(t_command *command, t_env *env, int fork, int flag)
 {
-	int		flag;
-
-	flag = 0;
 	if (!command->input && !command->flags)
 	{
 		if (!fork)
 		{
 			ft_putstr_fd("exit\n", 1, 0);
 			ft_exit_free(command, env);
+			exit(g_info.exit_code);
 		}
+		set_exit_code(0);
 		exit(g_info.exit_code);
 	}
 	num_arg_check(command->full_cmd, fork, command, env);
@@ -114,8 +116,10 @@ void	ft_exit(t_command *command, t_env *env, int fork)
 	else
 	{
 		if (!fork)
+		{
+			ft_exit_free(command, env);
 			ft_putstr_fd("exit\n", 1, 0);
-		ft_exit_free(command, env);
+		}
 		exit(g_info.exit_code);
 	}
 }

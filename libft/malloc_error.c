@@ -1,24 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   malloc_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoonslee <yoonslee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmakinen <rmakinen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/06 11:08:29 by rmakinen          #+#    #+#             */
-/*   Updated: 2023/08/21 17:39:58 by yoonslee         ###   ########.fr       */
+/*   Created: 2023/08/21 16:04:55 by rmakinen          #+#    #+#             */
+/*   Updated: 2023/08/22 09:54:23 by rmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include "libft.h"
 
-int	ft_pwd(t_env *env)
+void	malloc_error(void)
 {
-	char	*pwd;
-
-	(void)env;
-	pwd = getcwd(NULL, 0);
-	ft_putstr_fd(pwd, 1, 0);
-	ft_putchar_fd('\n', 1);
-	return (0);
+	ft_putstr_fd("Memory allocation failed\n", 2, 1);
+	exit(1);
 }

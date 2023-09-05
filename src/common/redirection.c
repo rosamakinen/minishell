@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meskelin <meskelin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoonslee <yoonslee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/14 18:41:58 by meskelin          #+#    #+#             */
-/*   Updated: 2023/08/14 19:56:05 by meskelin         ###   ########.fr       */
+/*   Created: 2023/08/14 18:41:58 by yoonslee          #+#    #+#             */
+/*   Updated: 2023/08/21 17:42:11 by yoonslee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
-#include "../../headers/hashmap.h"
-#include "../../libft/libft.h"
 
 void	ft_dup2(int infile_fd, int outfile_fd)
 {
@@ -49,21 +47,21 @@ int	parse_redirection(t_command *cmd, int track, char *str, char *input)
 	{
 		cmd[track].infile_name = ft_strdup(str);
 		if (!cmd[track].infile_name)
-			ft_putstr_fd("Strdup memory allocation failure!\n", 2, 1);
+			malloc_error();
 		cmd[track].token = INPUT;
 	}
 	else if (!ft_strncmp_all(">", input))
 	{
 		cmd[track].outfile_name = ft_strdup(str);
 		if (!cmd[track].outfile_name)
-			ft_putstr_fd("Strdup memory allocation failure!\n", 2, 1);
+			malloc_error();
 		cmd[track].token = OUTPUT_TRUNC;
 	}
 	else if (!ft_strncmp_all(">>", input))
 	{
 		cmd[track].outfile_name = ft_strdup(str);
 		if (!cmd[track].outfile_name)
-			ft_putstr_fd("Strdup memory allocation failure!\n", 2, 1);
+			malloc_error();
 		cmd[track].token = OUTPUT_APPEND;
 	}
 	return (0);

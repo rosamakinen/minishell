@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoonslee <yoonslee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/29 17:39:58 by meskelin          #+#    #+#             */
-/*   Updated: 2023/08/16 14:41:41 by yoonslee         ###   ########.fr       */
+/*   Created: 2023/08/21 17:41:19 by yoonslee          #+#    #+#             */
+/*   Updated: 2023/08/21 17:41:21 by yoonslee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	execute_builtin(t_command **command, t_env ***env, int fork)
 	else if (ft_strncmp_all((*command)->command, "unset") == 0)
 		ft_unset((*command)->input, **env);
 	else if (ft_strncmp_all((*command)->command, "exit") == 0)
-		ft_exit((*command), **env, fork);
+		ft_exit((*command), **env, fork, 0);
 	else
 		return (0);
 	return (1);
@@ -35,7 +35,21 @@ static int	execute_builtin(t_command **command, t_env ***env, int fork)
 
 void	execute_command(t_command *command, t_env **env, int fork)
 {
-	if (!command || !command->command)
+	if (command && command->command)
+	{
+		if (command->command[0] == '\0')
+		{
+			ft_putstr_fd("command not found\n", 2, 1);
+			set_exit_code(127);
+			if (fork)
+				exit (g_info.exit_code);
+			return ;
+		}
+	}
+	else if (command && !command->command && \
+		(command->infile_name || command->outfile_name))
+		exit(0);
+	else
 		exit(1);
 	if (execute_builtin(&command, &env, fork))
 	{
@@ -80,20 +94,20 @@ static	int	exec_one_command(t_command *command, int command_count, t_env **env)
 				execute_command(command, env, 1);
 			}
 			waitpid(pid_test, &status, 0);
-			g_info.exit_code = WEXITSTATUS(status);
+			set_exit_code(WEXITSTATUS(status));
 		}
 		return (1);
 	}
 	return (0);
 }
 
-int	execute_commands(t_command *commands, int command_count, t_env **env)
+void	execute_commands(t_command *commands, int command_count, t_env **env)
 {
 	int	i;
 	int	*pids;
 
 	if (exec_one_command(commands, command_count, env))
-		return (0);
+		return ;
 	i = -1;
 	pids = allocate_pids(command_count);
 	while (command_count != 1 && ++i < command_count)
@@ -110,5 +124,4 @@ int	execute_commands(t_command *commands, int command_count, t_env **env)
 	close_files(g_info.pipe_fds, g_info.pipe_count);
 	wait_children(pids, i - 1);
 	free(pids);
-	return (0);
 }

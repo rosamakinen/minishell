@@ -6,30 +6,37 @@
 /*   By: yoonslee <yoonslee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 18:48:00 by yoonslee          #+#    #+#             */
-/*   Updated: 2023/08/15 17:47:36 by yoonslee         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:44:13 by yoonslee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/parsing.h"
-#include "../../libft/libft.h"
 
 char	*special_expand(t_data *ms, char *str)
 {
-	while (!ft_isalnum(str[ms->end]) && str[ms->end] != ' ' && \
-			str[ms->end] != '$' && str[ms->end])
+	char	*temp;
+	char	*temp2;
+
+	while (!ft_isalnum(str[ms->end]) && str[ms->end] != ' ' \
+		&& str[ms->end + 1] != '$' && str[ms->end + 1] \
+		&& !ft_isalnum(str[ms->end + 1]))
 		ms->end++;
-	if (!str[ms->end])
+	if (ms->start == 0 && (int)ft_strlen(str) == ms->end + 1)
 	{
 		free(str);
 		return ("");
 	}
 	else
 	{
-		ms->out = ft_substr(str, ms->end, ft_strlen(str) - ms->end);
+		temp = ft_substr(str, 0, ms->start);
+		temp2 = ft_substr(str, ms->end + 1, ft_strlen(str) - ms->end - 1);
+		ms->out = ft_strjoin(temp, temp2);
+		free(temp);
+		free(temp2);
 		if (!ms->out)
-			return (NULL);
+			ft_putstr_fd("Memory Allocation Failed!\n", 2, 1);
 		free(str);
-		ms->end = 0;
+		ms->end = ms->start;
 		return (ms->out);
 	}
 }
@@ -58,6 +65,7 @@ int	space_newline(char *str)
 			return (0);
 		i++;
 	}
+	set_exit_code(0);
 	return (1);
 }
 

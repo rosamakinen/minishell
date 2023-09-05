@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   add_lines_lexer.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yoonslee <yoonslee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/26 11:17:58 by jhusso            #+#    #+#             */
-/*   Updated: 2023/07/30 10:24:18 by jhusso           ###   ########.fr       */
+/*   Created: 2023/08/21 17:43:17 by yoonslee          #+#    #+#             */
+/*   Updated: 2023/08/21 17:43:18 by yoonslee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/lexer.h"
-#include "../../libft/libft.h"
 
-char	**not_first_line(char **n_array, t_lexer *l)
+static char	**not_first_line(char **n_array, t_lexer *l)
 {
 	int	i;
 
@@ -65,7 +64,7 @@ char	**add_line(t_lexer *l)
 	return (n_array);
 }
 
-char	**not_first_line_redir(char **n_array, t_lexer *l)
+static char	**not_first_line_redir(char **n_array, t_lexer *l)
 {
 	int	i;
 
@@ -92,7 +91,7 @@ char	**not_first_line_redir(char **n_array, t_lexer *l)
 	return (n_array);
 }
 
-char	**add_line_redir(t_lexer *l)
+static char	**add_line_redir(t_lexer *l)
 {
 	char	**n_array;
 

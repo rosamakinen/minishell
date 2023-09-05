@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rmakinen <rmakinen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/28 08:43:30 by meskelin          #+#    #+#             */
-/*   Updated: 2023/07/24 11:38:32 by jhusso           ###   ########.fr       */
+/*   Created: 2023/08/21 17:37:31 by yoonslee          #+#    #+#             */
+/*   Updated: 2023/08/22 09:42:44 by rmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	**ft_split(char const *s, char c)
 	count = ft_count_words(s, c);
 	split = (char **)malloc(sizeof(char *) * (count + 1));
 	if (split == NULL)
-		return (NULL);
+		malloc_error();
 	split[count] = NULL;
 	ft_add_words(split, s, c, 0);
 	return (split);

@@ -5,12 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rmakinen <rmakinen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/04 11:17:52 by yoonslee          #+#    #+#             */
-/*   Updated: 2023/08/04 13:27:09 by rmakinen         ###   ########.fr       */
+/*   Created: 2023/08/21 17:36:28 by yoonslee          #+#    #+#             */
+/*   Updated: 2023/08/22 09:42:55 by rmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <limits.h>
 
 static long int	ft_intlen(long long nb)
 {
@@ -37,6 +38,8 @@ char	*ft_lltoa(long long n)
 	long long	nb;
 
 	nb = (long long)n;
+	if (nb == LLONG_MIN)
+		return (ft_strdup("-9223372036854775808"));
 	len = ft_intlen(nb);
 	if (nb < 0)
 	{
@@ -45,12 +48,12 @@ char	*ft_lltoa(long long n)
 	}
 	str = (char *)malloc (sizeof(char) * (len + 1));
 	if (!str)
-		return (NULL);
+		malloc_error();
 	str[len] = '\0';
 	while (len--)
 	{
-	str[len] = (nb % 10) + '0';
-	nb = nb / 10;
+		str[len] = (nb % 10) + '0';
+		nb = nb / 10;
 	}
 	if (n < 0)
 		str[0] = '-';

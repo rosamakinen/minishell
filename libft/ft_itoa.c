@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emeinert <emeinert@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: rmakinen <rmakinen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/28 15:39:05 by yoonslee          #+#    #+#             */
-/*   Updated: 2023/08/03 14:41:09 by emeinert         ###   ########.fr       */
+/*   Created: 2023/08/21 17:36:23 by yoonslee          #+#    #+#             */
+/*   Updated: 2023/08/22 09:42:57 by rmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*ft_itoa(int n)
 	}
 	str = (char *)malloc (sizeof(char) * (len + 1));
 	if (!str)
-		return (NULL);
+		malloc_error();
 	str[len] = '\0';
 	while (len--)
 	{

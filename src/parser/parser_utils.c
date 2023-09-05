@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meskelin <meskelin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoonslee <yoonslee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 17:42:15 by yoonslee          #+#    #+#             */
-/*   Updated: 2023/08/14 18:46:01 by meskelin         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:44:19 by yoonslee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/parsing.h"
-#include "../../libft/libft.h"
 
 /*initialize the quotes count to zero*/
 void	quotes_init(t_data *ms)
@@ -49,7 +48,7 @@ void	ms_init(t_data *ms)
 void	realloc_var2(t_data *ms, int leftover, int size, char *str)
 {
 	ms->k = -1;
-	while ((leftover + (++(ms->k))) < size)
+	while ((leftover + (++(ms->k))) < size && str[ms->end + ms->k])
 		ms->out[leftover + ms->k] = str[ms->end + ms->k];
 	ms->out[leftover + ms->k] = '\0';
 	ms->end = leftover;

@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emeinert <emeinert@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: yoonslee <yoonslee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/03 10:37:51 by emeinert          #+#    #+#             */
-/*   Updated: 2023/08/03 10:38:05 by emeinert         ###   ########.fr       */
+/*   Created: 2023/08/21 17:36:14 by yoonslee          #+#    #+#             */
+/*   Updated: 2023/08/21 17:36:15 by yoonslee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_isalpha(int n)
-{	
+{
 	int	answer;
 
 	answer = 0;

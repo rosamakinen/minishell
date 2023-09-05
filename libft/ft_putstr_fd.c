@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meskelin <meskelin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmakinen <rmakinen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/09 14:02:18 by yoonslee          #+#    #+#             */
-/*   Updated: 2023/08/08 13:37:15 by meskelin         ###   ########.fr       */
+/*   Created: 2023/08/22 10:08:13 by rmakinen          #+#    #+#             */
+/*   Updated: 2023/08/22 10:08:19 by rmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_putstr_fd(char *s, int fd, int print_shellname)
 	if (!s)
 		return ;
 	if (print_shellname)
-		ft_putstr_fd(PINK"PinkShell: "BORING, fd, 0);
+		ft_putstr_fd("TeenyTinyMiniShell\U0001F43E>: ", fd, 0);
 	while (s[i])
 	{
 		ft_putchar_fd(s[i], fd);

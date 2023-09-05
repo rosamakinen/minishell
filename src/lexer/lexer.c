@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoonslee <yoonslee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmakinen <rmakinen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/30 10:28:08 by jhusso            #+#    #+#             */
-/*   Updated: 2023/08/02 10:25:42 by yoonslee         ###   ########.fr       */
+/*   Created: 2023/08/21 17:43:35 by yoonslee          #+#    #+#             */
+/*   Updated: 2023/08/22 09:42:53 by rmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/lexer.h"
-#include "../../libft/libft.h"
 
-char	**parse_line_helper(t_lexer *l)
+static char	**parse_line_helper(t_lexer *l)
 {
 	while (++l->j < (int)ft_strlen(l->new_arr[l->i]))
 	{
@@ -40,7 +39,7 @@ char	**parse_line_helper(t_lexer *l)
 	return (l->new_arr);
 }
 
-char	**parse_line(t_lexer l)
+static char	**parse_line(t_lexer l)
 {
 	l.i = -1;
 	l.del_len = 0;
@@ -71,15 +70,15 @@ char	**ft_lexer(char *str)
 
 	init_lexer(&l);
 	trimmed_str = ft_strtrim(str, " \t");
-	if (syntax_error(trimmed_str) == -1)
+	if (syntax_error(trimmed_str, ft_strlen(trimmed_str)) == -1)
 		return (NULL);
 	l.new_arr = (char **)ft_calloc(2, sizeof(char *));
 	if (!l.new_arr)
-		return (NULL);
+		malloc_error();
 	l.new_arr[0] = ft_strdup(trimmed_str);
 	free(trimmed_str);
 	if (l.new_arr == NULL)
-		return (NULL);
+		malloc_error();
 	l.arr = parse_line(l);
 	if (!l.arr)
 		return (NULL);

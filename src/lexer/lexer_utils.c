@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yoonslee <yoonslee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/06 09:19:51 by jhusso            #+#    #+#             */
-/*   Updated: 2023/08/14 11:47:50 by jhusso           ###   ########.fr       */
+/*   Created: 2023/08/21 17:43:30 by yoonslee          #+#    #+#             */
+/*   Updated: 2023/08/21 17:43:31 by yoonslee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/lexer.h"
-#include "../../libft/libft.h"
 
 /* 1 is pipe, 2 is < or > or << or >>
 error value 258 needs to be returned*/
@@ -78,7 +77,6 @@ int	check_if_nothing(char *str, int i)
 /* If finds pair for quote, returns i, otherwise prints error message */
 int	quote_check(char *str, int i, char quote)
 {
-	i++;
 	while (str[i])
 	{
 		if (str[i] == quote)

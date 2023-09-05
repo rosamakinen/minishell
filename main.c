@@ -5,119 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoonslee <yoonslee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/15 13:36:36 by yoonslee          #+#    #+#             */
-/*   Updated: 2023/08/16 10:22:11 by yoonslee         ###   ########.fr       */
+/*   Created: 2023/08/21 17:44:26 by yoonslee          #+#    #+#             */
+/*   Updated: 2023/08/21 17:50:47 by yoonslee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include "headers/parsing.h"
-#include "headers/lexer.h"
 #include "headers/minishell.h"
-#include "libft/libft.h"
-#include <termios.h>
-
-// static void	print_cmd_line(char **str)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		printf("cmd_line is %s\n", str[i]);
-// 		i++;
-// 	}
-// }
-
-// //printf("cmd[%d].input is %s$\t%p\n", i, cmd[i].input, &(*cmd[i].input));
-// static void	print_full_command(t_command *cmd)
-// {
-// 	int	i;
-// 	int	j;
-
-// 	i = -1;
-// 	while (cmd[++i].full_cmd)
-// 	{
-// 		j = 0;
-// 		while (cmd[(i)].full_cmd[j])
-// 		{
-// 			printf("cmd[%d].full_cmd[%d] is %s\n", i, j, cmd[i].full_cmd[j]);
-// 			j++;
-// 		}
-// 	}
-// }
-
-// static void	print_command(t_command *cmd)
-// {
-// 	int	i;
-// 	int	j;
-// static void	print_command(t_command *cmd)
-// {
-// 	int	i;
-// 	int	j;
-
-// 	i = -1;
-// 	while (cmd[++i].command)
-// 	{
-// 		if (cmd[i].command)
-// 			printf("cmd[%d].command is %s\n", i, cmd[i].command);
-// 		if (cmd[i].full_cmd)
-// 		{
-// 			j = 0;
-// 			while (cmd[i].full_cmd[j])
-// 			{
-// 				printf("cmd[%d].full_cmd[%d] is %s\n", i, j, cmd[i].full_cmd[j]);
-// 				j++;
-// 			}
-// 		}
-// 		if (cmd[i].flags)
-// 			printf("cmd[%d].flags is %s\n", i, cmd[i].flags);
-// 		if (cmd[i].input)
-// 		{
-// 			j = 0;
-// 			while (cmd[i].input[j])
-// 			{
-// 				printf("cmd[%d].input[%d] is %s\n", i, j, cmd[i].input[j]);
-// 				j++;
-// 			}
-// 		}
-// 		if (cmd[i].infile_name)
-// 			printf("cmd[%d].infile is %s\n", i, cmd[i].infile_name);
-// 		if (cmd[i].outfile_name)
-// 			printf("cmd[%d].outfile is %s\n", i, cmd[i].outfile_name);
-// 	}
-// }
-// 	i = -1;
-// 	while (cmd[++i].command)
-// 	{
-// 		if (cmd[i].command)
-// 			printf("cmd[%d].command is %s\n", i, cmd[i].command);
-// 		if (cmd[i].full_cmd)
-// 		{
-// 			j = 0;
-// 			while (cmd[i].full_cmd[j])
-// 			{
-// 				printf("cmd[%d].full_cmd[%d] is %s\n", i, j, cmd[i].full_cmd[j]);
-// 				j++;
-// 			}
-// 		}
-// 		if (cmd[i].flags)
-// 			printf("cmd[%d].flags is %s\n", i, cmd[i].flags);
-// 		if (cmd[i].input)
-// 		{
-// 			j = 0;
-// 			while (cmd[i].input[j])
-// 			{
-// 				printf("cmd[%d].input[%d] is %s\n", i, j, cmd[i].input[j]);
-// 				j++;
-// 			}
-// 		}
-// 		if (cmd[i].infile_name)
-// 			printf("cmd[%d].infile is %s\n", i, cmd[i].infile_name);
-// 		if (cmd[i].outfile_name)
-// 			printf("cmd[%d].outfile is %s\n", i, cmd[i].outfile_name);
-// 	}
-// }
 
 t_command	*ft_parser(t_data *ms, char **cmd_line)
 {
@@ -165,16 +58,20 @@ void	minishell(t_data *ms)
 
 	while (42)
 	{
-		line = readline(PINK "PinkShell: " BORING);
+		line = readline(SHELL);
 		ctrl_d_cmd(line, ms);
-		if (line && (space_newline(line) \
-					|| line[0] == '\0' || line[0] == '\n'))
+		if (line && (line[0] == '\0' || line[0] == '\n'))
 		{
 			free(line);
 			continue ;
 		}
 		else
 			add_history(line);
+		if (space_newline(line))
+		{
+			free(line);
+			continue ;
+		}
 		if (process_input_line(ms, line) == 1)
 			continue ;
 	}
@@ -184,14 +81,20 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data	ms;
 
-	(void)argc;
 	(void)argv;
-	ms.env = NULL;
-	fill_env(envp, &ms.env);
-	add_shlvl(&ms.env);
-	set_signal_action(&ms);
-	minishell(&ms);
-	restore_terminal(&ms);
-	free_in_main(&ms);
-	return (0);
+	if (argc == 1)
+	{
+		ms.env = NULL;
+		fill_env(envp, &ms.env);
+		greetings();
+		add_shlvl(&ms.env);
+		set_signal_action(&ms);
+		minishell(&ms);
+		restore_terminal(&ms);
+		free_in_main(&ms);
+		return (0);
+	}
+	ft_putstr_fd("If you tried to run minishell, please try with\
+	./minishell and NO arguments\n", 2, 0);
+	return (1);
 }

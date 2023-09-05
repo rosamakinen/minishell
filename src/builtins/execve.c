@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoonslee <yoonslee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmakinen <rmakinen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/04 13:35:02 by rmakinen          #+#    #+#             */
-/*   Updated: 2023/08/16 13:22:15 by yoonslee         ###   ########.fr       */
+/*   Created: 2023/08/21 17:39:19 by yoonslee          #+#    #+#             */
+/*   Updated: 2023/08/22 10:07:32 by rmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ static char	*find_cmd_path(char *cmd, t_node *temp)
 		return (cmd);
 	path = temp->value;
 	split_path = ft_split(path, ':');
+	if (!split_path)
+		malloc_error();
 	if (split_path)
 		path = access_path(split_path, cmd);
 	free_char_array(split_path);
@@ -53,7 +55,9 @@ static void	cmd_is_dir(t_command *command, t_env **env)
 {
 	t_node	*temp;
 
-	if (!ft_strncmp_all(command->command, "/home"))
+	if (!ft_strncmp_all(command->command, "/home") \
+		|| !ft_strncmp_all(command->command, "/bin") \
+		|| !ft_strncmp_all(command->command, "/"))
 	{
 		ft_puterror(126, ": is a directory\n", command);
 		exit(126);
@@ -72,6 +76,7 @@ int	execute_ft_execve(t_command *command, t_env **env)
 {
 	int	exec;
 
+	signal(SIGQUIT, SIG_DFL);
 	exec = ft_execve(command, env);
 	if (exec < 0)
 	{
@@ -93,15 +98,18 @@ int	ft_execve(t_command *command, t_env **env)
 	cmd_is_dir(command, env);
 	cmd_is_not_executable(command);
 	temp = get_value((*env)->vars, "PATH");
-	if (temp == NULL)
+	if (temp == NULL || (ft_strchr(command->command, '/') && \
+		access(command->command, F_OK) == -1))
 		return (-2);
 	path = find_cmd_path(command->command, temp);
 	if (path == NULL || !ft_strncmp_all(path, ".."))
 		return (-1);
 	vars = ft_split(env_to_string(env), '\n');
+	if (!vars)
+		malloc_error();
 	if (execve(path, command->full_cmd, vars) < 0)
 	{
-		ft_putstr_fd("Error with execve call!\n", 2, 1);
+		ft_putstr_fd("Error with execution\n", 2, 1);
 		exit (1);
 	}
 	free_char_array(vars);

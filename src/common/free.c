@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvu <marvin@42.fr>                         +#+  +:+       +#+        */
+/*   By: yoonslee <yoonslee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/08/15 17:52:03 by yoonslee         ###   ########.fr       */
+/*   Created: 2023/08/21 17:41:38 by yoonslee          #+#    #+#             */
+/*   Updated: 2023/08/21 17:41:39 by yoonslee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/parsing.h"
-#include "../../headers/lexer.h"
 #include "../../headers/minishell.h"
-#include "../../libft/libft.h"
 
 static void	unlink_heredoc(char *filename)
 {

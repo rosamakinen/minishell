@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rmakinen <rmakinen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/16 10:32:08 by jhusso            #+#    #+#             */
-/*   Updated: 2023/07/03 08:29:26 by jhusso           ###   ########.fr       */
+/*   Created: 2023/08/21 17:38:24 by yoonslee          #+#    #+#             */
+/*   Updated: 2023/08/22 09:42:41 by rmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ char	*ft_strtrim(char const *s1, char *set)
 	while (j > i && is_set(s1[j - 1], set))
 		j --;
 	trim = (char *)malloc(sizeof(char) * (j - i + 1));
-	if (trim == 0)
-		return (0);
+	if (!trim)
+		malloc_error();
 	k = 0;
 	while (i < j)
 		trim[k++] = s1[i++];

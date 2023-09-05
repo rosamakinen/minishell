@@ -5,30 +5,31 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rmakinen <rmakinen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/08/16 11:08:03 by rmakinen         ###   ########.fr       */
+/*   Created: 2023/08/21 17:42:41 by yoonslee          #+#    #+#             */
+/*   Updated: 2023/08/22 09:35:46 by rmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "../../headers/minishell.h"
-#include "../../libft/libft.h"
 
 void	print_export_env(t_env **env)
 {
 	char	**export;
+	int		i;
 
 	export = ft_split(env_to_string(env), '\n');
-	while (export)
+	if (!export)
+		return ;
+	i = 0;
+	while (export[i])
 	{
-		if (*export[0] != '\0')
+		if (export[i][0] != '\0')
 		{
 			ft_putstr_fd("declare -x ", 1, 0);
-			ft_putstr_fd(*export, 1, 0);
+			ft_putstr_fd(export[i], 1, 0);
 			ft_putchar_fd('\n', 1);
 		}
-		export++;
+		i++;
 	}
 	ft_free_array(export);
 }
@@ -71,8 +72,8 @@ void	ft_env(t_env **env, t_command *command)
 		ft_putstr_fd(": ", 2, 0);
 		ft_putstr_fd(command->full_cmd[1], 2, 0);
 		ft_putstr_fd(": no such file or directory\n", 2, 0);
-		g_info.exit_code = 127;
-		return ;
+		set_exit_code(127);
+		exit(g_info.exit_code);
 	}
 	ft_putstr_fd(env_to_string(env), 1, 0);
 	set_exit_code(0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meskelin <meskelin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoonslee <yoonslee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/08 16:57:11 by meskelin          #+#    #+#             */
-/*   Updated: 2023/08/14 18:53:57 by meskelin         ###   ########.fr       */
+/*   Created: 2023/08/08 16:57:11 by yoonslee          #+#    #+#             */
+/*   Updated: 2023/08/21 17:41:11 by yoonslee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,25 @@ static char	*parse_redirection_filename(char **input, int index)
 	(index)++;
 	str = ft_calloc((str_len + 1), sizeof(char));
 	if (!str)
-		ft_putstr_fd("Memory allocation failure!\n", 2, 1);
+		malloc_error();
 	ft_strlcpy(str, input[cur_index], ft_strlen(input[cur_index]) + 1);
 	return (str);
+}
+
+void	update_infile_redir_heredoc(t_command *cmd, int track)
+{
+	free(cmd[track].infile_name);
+	cmd[track].infile_name = NULL;
+	close_file(g_info.redir_fds[cmd->redir_fd_index_in]);
+	g_info.redir_fds[cmd->redir_fd_index_in] = -1;
+	cmd->redir_fd_index_in = -2;
 }
 
 static void	reset_redir_file(t_command *cmd, char **input,	\
 											int *index, int track)
 {
 	if (!(ft_strncmp(input[(*index)], "<", 1)) && cmd[track].infile_name)
-	{
-		free(cmd[track].infile_name);
-		cmd[track].infile_name = NULL;
-		close_file(g_info.redir_fds[cmd->redir_fd_index_in]);
-		g_info.redir_fds[cmd->redir_fd_index_in] = -1;
-		cmd->redir_fd_index_in = -2;
-	}
+		update_infile_redir_heredoc(cmd, track);
 	else if (!(ft_strncmp(input[(*index)], ">", 1)) && cmd[track].outfile_name)
 	{
 		free(cmd[track].outfile_name);
