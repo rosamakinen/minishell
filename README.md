@@ -1,6 +1,10 @@
 # minishell
 our own bash
 
+## :mag_right: About
+
+This project focuses on creating a simple shell, a command-line interpreter that allows users to interact with the operating system by executing commands and managing processes.
+
 ##  :paperclip: Features
 
 - [x] Input parsing
@@ -10,10 +14,6 @@ our own bash
 - [x] Signals handling
 - [x] Pipes and redirections
 - [x] Heredoc 
-
-## :mag_right: About
-
-This project focuses on creating a simple shell, a command-line interpreter that allows users to interact with the operating system by executing commands and managing processes.
 
 ## :mega: Project Collaboration
 
