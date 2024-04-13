@@ -3,7 +3,7 @@ our own bash
 
 ## :mag_right: About
 
-This project focuses on creating a simple shell, a command-line interpreter that allows users to interact with the operating system by executing commands and managing processes.
+This project focuses on creating a shell, a command-line interpreter, based on bash, that allows users to interact with the operating system by executing commands and managing processes.
 
 ##  :paperclip: Features
 
