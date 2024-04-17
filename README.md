@@ -3,17 +3,19 @@ our own bash
 
 ## :mag_right: About
 
-This project focuses on creating a shell, a command-line interpreter, based on bash, that allows users to interact with the operating system by executing commands and managing processes.
+This project focuses on creating a shell, a command-line interpreter, based on bash, that allows users to interact with the operating system by executing commands and managing processes. Minishell handles pipes & redirections, environment variables, expansions, signals and has built-in functionality for the following commands: cd, pwd, env, export, unset, echo and exit.
 
 ##  :paperclip: Features
 
-- [x] Input parsing
+- [x] Interactive prompt
+- [x] Command history
 - [x] Command execution
+- [x] Input and Output Redirection
+- [x] Pipeline Support
+- [x] Heredoc 
 - [x] Environment variables and expansions
 - [x] Builtin commands (cd, echo, export, unset, env)
-- [x] Signals handling
-- [x] Pipes and redirections
-- [x] Heredoc 
+- [x] Signal handling
 
 ## :mega: Project Collaboration
 
